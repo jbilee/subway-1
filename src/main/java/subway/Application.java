@@ -1,6 +1,5 @@
 package subway;
 
-import subway.domain.Handler;
 import subway.helpers.InputController;
 import subway.ui.InputView;
 import subway.ui.constants.ErrorMessages;
@@ -8,7 +7,7 @@ import subway.ui.constants.ErrorMessages;
 public class Application {
     public static void main(String[] args) {
         InputController inputController = new InputController(new InputView());
-        Handler handler = new Handler();
+        ServiceController serviceController = new ServiceController();
 
         while (true) {
             String option = inputController.getOption();
@@ -32,7 +31,7 @@ public class Application {
                 }
             }
 
-            handler.getDijkstraShortestPath(departure, destination, option);
+            serviceController.handleResults(departure, destination, option);
             System.out.print("\n");
         }
     }
