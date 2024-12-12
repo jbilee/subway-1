@@ -29,10 +29,10 @@ public enum LineData {
         return distances;
     }
 
-    public static String getWeights(String path) {
+    public static String getWeights(String path1, String path2) {
         for (LineData data : LineData.values()) {
             for (String distances : data.getDistances()) {
-                if (distances.contains(path)) {
+                if (distances.contains(path1) || distances.contains(path2)) {
                     return distances;
                 }
             }

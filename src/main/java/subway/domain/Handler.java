@@ -93,14 +93,15 @@ public class Handler {
             if (i + 1 == edges.size()) {
                 break;
             }
-            String path = edges.get(i) + "-" + edges.get(i + 1);
+            String path1 = edges.get(i) + "-" + edges.get(i + 1);
+            String path2 = edges.get(i + 1) + "-" + edges.get(i);
             if (type.equals("km")) {
-                String weights = LineData.getWeights(path);
+                String weights = LineData.getWeights(path1, path2);
                 String weightStr = List.of(weights.split(",")).get(1);
                 weight += Double.parseDouble(weightStr);
             }
             if (type.equals("m")) {
-                String weights = LineData.getWeights(path);
+                String weights = LineData.getWeights(path1, path2);
                 String weightStr = List.of(weights.split(",")).get(2);
                 weight += Double.parseDouble(weightStr);
             }

@@ -5,34 +5,35 @@ import subway.helpers.InputController;
 import subway.ui.InputView;
 import subway.ui.constants.ErrorMessages;
 
-import java.util.List;
-
 public class Application {
     public static void main(String[] args) {
         InputController inputController = new InputController(new InputView());
-
-        String option = inputController.getOption();
-        if (option.equals("Q")) {
-            return;
-        }
-
-        String departure;
-        String destination;
+        Handler handler = new Handler();
 
         while (true) {
-            try {
-                departure = inputController.getDeparture();
-                destination = inputController.getDestination();
-                if (departure.equals(destination)) {
-                    throw new IllegalArgumentException(ErrorMessages.DUPLICATE.getMessage());
-                }
+            String option = inputController.getOption();
+            if (option.equals("Q")) {
                 break;
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
             }
-        }
 
-        Handler handler = new Handler();
-        handler.getDijkstraShortestPath(departure, destination, option);
+            String departure;
+            String destination;
+
+            while (true) {
+                try {
+                    departure = inputController.getDeparture();
+                    destination = inputController.getDestination();
+                    if (departure.equals(destination)) {
+                        throw new IllegalArgumentException(ErrorMessages.DUPLICATE.getMessage());
+                    }
+                    break;
+                } catch (IllegalArgumentException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+
+            handler.getDijkstraShortestPath(departure, destination, option);
+            System.out.print("\n");
+        }
     }
 }
