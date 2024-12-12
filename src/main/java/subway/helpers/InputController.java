@@ -1,5 +1,7 @@
 package subway.helpers;
 
+import subway.domain.Handler;
+import subway.domain.constants.StationData;
 import subway.ui.InputView;
 import subway.ui.constants.ErrorMessages;
 import subway.ui.constants.UiText;
@@ -34,14 +36,14 @@ public class InputController {
 
     public String getFirstMenu() {
         System.out.println(UiText.MAIN_MENU_PROMPT.getText());
-        String response = inputView.readOption();
+        String response = this.inputView.readOption();
         this.validateFirstOption(response);
         return response;
     }
 
     public String getSecondMenu() {
         System.out.println(UiText.OPTIONS_MENU_PROMPT.getText());
-        String response = inputView.readOption();
+        String response = this.inputView.readOption();
         this.validateSecondOption(response);
         return response;
     }
@@ -56,5 +58,17 @@ public class InputController {
         if (!option.equals("1") && !option.equals("2") && !option.equals("B")) {
             throw new IllegalArgumentException(ErrorMessages.INVALID.getMessage());
         }
+    }
+
+    public String getDeparture() {
+        String departure = this.inputView.readDeparture();
+        StationData.findStation(departure);
+        return departure;
+    }
+
+    public String getDestination() {
+        String destination = this.inputView.readDestination();
+        StationData.findStation(destination);
+        return destination;
     }
 }
