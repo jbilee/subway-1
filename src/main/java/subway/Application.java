@@ -1,10 +1,11 @@
 package subway;
 
 import subway.domain.Handler;
-import subway.domain.constants.LineData;
 import subway.helpers.InputController;
 import subway.ui.InputView;
 import subway.ui.constants.ErrorMessages;
+
+import java.util.List;
 
 public class Application {
     public static void main(String[] args) {
@@ -32,6 +33,6 @@ public class Application {
         }
 
         Handler handler = new Handler();
-
+        handler.getDijkstraShortestPath(departure, destination, option);
     }
 }

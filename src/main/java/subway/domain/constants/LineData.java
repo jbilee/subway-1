@@ -1,5 +1,7 @@
 package subway.domain.constants;
 
+import subway.ui.constants.ErrorMessages;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,6 +27,17 @@ public enum LineData {
 
     public List<String> getDistances() {
         return distances;
+    }
+
+    public static String getWeights(String path) {
+        for (LineData data : LineData.values()) {
+            for (String distances : data.getDistances()) {
+                if (distances.contains(path)) {
+                    return distances;
+                }
+            }
+        }
+        throw new IllegalStateException(ErrorMessages.UNKNOWN.getMessage());
     }
 
     public static boolean hasCommonRoute(String departure, String destination) {

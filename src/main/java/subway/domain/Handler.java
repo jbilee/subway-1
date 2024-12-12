@@ -5,9 +5,13 @@ import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.WeightedMultigraph;
 import subway.domain.constants.LineData;
 import subway.domain.constants.StationData;
+import subway.ui.OutputView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Handler {
     private List<Line> lines = new ArrayList<>();
@@ -58,8 +62,49 @@ public class Handler {
         }
     }
 
-    public List<String> getDijkstraShortestPath(String departure, String destination) {
-        DijkstraShortestPath dijkstraShortestPath = new DijkstraShortestPath(this.distanceGraph);
-        return dijkstraShortestPath.getPath(departure, destination).getVertexList();
+    public void getDijkstraShortestPath(String departure, String destination, String option) {
+        OutputView outputView = new OutputView();
+        DijkstraShortestPath dijkstraShortestPath;
+        List<String> shortestPath = new ArrayList<>();
+        double km = 0;
+        double m = 0;
+        if (option.equals("1")) {
+            dijkstraShortestPath = new DijkstraShortestPath(this.distanceGraph);
+            shortestPath = dijkstraShortestPath.getPath(departure, destination).getVertexList();
+            km = dijkstraShortestPath.getPath(departure, destination).getWeight();
+        }
+        if (option.equals("2")) {
+            dijkstraShortestPath = new DijkstraShortestPath(this.timeGraph);
+            shortestPath = dijkstraShortestPath.getPath(departure, destination).getVertexList();
+            m = dijkstraShortestPath.getPath(departure, destination).getWeight();
+        }
+        if (km == 0) {
+            km = getEdgeSum("km", shortestPath);
+        }
+        if (m == 0) {
+            m = getEdgeSum("m", shortestPath);
+        }
+        outputView.printResults(shortestPath, km, m);
+    }
+
+    public double getEdgeSum(String type, List<String> edges) {
+        double weight = 0;
+        for (int i = 0; i < edges.size(); i++) {
+            if (i + 1 == edges.size()) {
+                break;
+            }
+            String path = edges.get(i) + "-" + edges.get(i + 1);
+            if (type.equals("km")) {
+                String weights = LineData.getWeights(path);
+                String weightStr = List.of(weights.split(",")).get(1);
+                weight += Double.parseDouble(weightStr);
+            }
+            if (type.equals("m")) {
+                String weights = LineData.getWeights(path);
+                String weightStr = List.of(weights.split(",")).get(2);
+                weight += Double.parseDouble(weightStr);
+            }
+        }
+        return weight;
     }
 }
