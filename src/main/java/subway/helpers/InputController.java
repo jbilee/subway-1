@@ -1,6 +1,5 @@
 package subway.helpers;
 
-import subway.domain.Handler;
 import subway.domain.constants.StationData;
 import subway.ui.InputView;
 import subway.ui.constants.ErrorMessages;

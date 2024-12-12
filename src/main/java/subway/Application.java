@@ -1,6 +1,7 @@
 package subway;
 
 import subway.domain.Handler;
+import subway.domain.constants.LineData;
 import subway.helpers.InputController;
 import subway.ui.InputView;
 import subway.ui.constants.ErrorMessages;
@@ -30,8 +31,7 @@ public class Application {
             }
         }
 
-
-
         Handler handler = new Handler();
+
     }
 }
